@@ -14,7 +14,7 @@ const createProduct = async (req, res) => {
             brand,
             mrp,
             price
-        } = req.body;
+        } = req.body || {};
 
         if (
             !productName ||

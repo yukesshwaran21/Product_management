@@ -99,3 +99,59 @@ td button {
     font-size: 16px;
     background: white;
 }
+
+.product-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    background: white;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.form-buttons {
+    grid-column: span 2;
+    display: flex;
+    gap: 10px;
+}
+
+nav {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+}
+
+.page {
+    padding-bottom: 50px;
+}
+
+.page h1 {
+    font-size: 28px;
+}

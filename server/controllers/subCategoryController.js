@@ -1,5 +1,6 @@
 const SubCategory = require("../models/SubCategory");
 const Category = require("../models/Category");
+const Product = require("../models/Product");
 
 // Create subcategory
 const createSubCategory = async (req, res) => {
@@ -151,6 +152,17 @@ const updateSubCategory = async (req, res) => {
 // Delete subcategory
 const deleteSubCategory = async (req, res) => {
     try {
+        const productExists = await Product.findOne({
+            subCategory: req.params.id
+        });
+
+        if (productExists) {
+            return res.status(400).json({
+                message:
+                    "Cannot delete subcategory because it has products"
+            });
+        }
+
         const subCategory = await SubCategory.findByIdAndDelete(
             req.params.id
         );
@@ -172,7 +184,6 @@ const deleteSubCategory = async (req, res) => {
         });
     }
 };
-
 
 module.exports = {
     createSubCategory,
