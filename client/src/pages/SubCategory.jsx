@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import { useToast } from "../components/Toast";
 
 function SubCategory() {
     const [categories, setCategories] = useState([]);
@@ -9,6 +10,7 @@ function SubCategory() {
     const [subCategoryName, setSubCategoryName] = useState("");
 
     const [editId, setEditId] = useState(null);
+    const { showToast } = useToast();
 
     // Fetch categories
     const fetchCategories = async () => {
@@ -40,7 +42,10 @@ function SubCategory() {
         e.preventDefault();
 
         if (!category || !subCategoryName.trim()) {
-            alert("Category and subcategory name are required");
+            showToast(
+                "Category and subcategory name are required",
+                "warning"
+            );
             return;
         }
 
@@ -51,14 +56,14 @@ function SubCategory() {
                     subCategoryName
                 });
 
-                alert("Subcategory updated successfully");
+                showToast("Subcategory updated successfully");
             } else {
                 await api.post("/subcategories", {
                     category,
                     subCategoryName
                 });
 
-                alert("Subcategory created successfully");
+                showToast("Subcategory created successfully");
             }
 
             setCategory("");
@@ -68,9 +73,10 @@ function SubCategory() {
             fetchSubCategories();
 
         } catch (error) {
-            alert(
+            showToast(
                 error.response?.data?.message ||
-                "Something went wrong"
+                "Something went wrong",
+                "error"
             );
         }
     };
@@ -100,7 +106,7 @@ function SubCategory() {
         try {
             await api.delete(`/subcategories/${id}`);
 
-            alert("Subcategory deleted successfully");
+            showToast("Subcategory deleted successfully");
 
             fetchSubCategories();
 

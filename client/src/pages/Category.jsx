@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import { useToast } from "../components/Toast";
 
 function Category() {
     const [categoryName, setCategoryName] = useState("");
     const [categories, setCategories] = useState([]);
     const [editId, setEditId] = useState(null);
+    const { showToast } = useToast();
 
     const fetchCategories = async () => {
         try {
@@ -23,7 +25,10 @@ function Category() {
         e.preventDefault();
 
         if (!categoryName.trim()) {
-            alert("Category name is required");
+            showToast(
+                "Category name is required",
+                "warning"
+            );
             return;
         }
 
@@ -33,13 +38,13 @@ function Category() {
                     categoryName
                 });
 
-                alert("Category updated successfully");
+                showToast("Category updated successfully");
             } else {
                 await api.post("/categories", {
                     categoryName
                 });
 
-                alert("Category created successfully");
+                showToast("Category created successfully");
             }
 
             setCategoryName("");
@@ -48,9 +53,10 @@ function Category() {
             fetchCategories();
 
         } catch (error) {
-            alert(
+            showToast(
                 error.response?.data?.message ||
-                "Something went wrong"
+                "Something went wrong",
+                "error"
             );
         }
     };
@@ -72,7 +78,7 @@ function Category() {
         try {
             await api.delete(`/categories/${id}`);
 
-            alert("Category deleted successfully");
+            showToast("Category deleted successfully");
 
             fetchCategories();
 

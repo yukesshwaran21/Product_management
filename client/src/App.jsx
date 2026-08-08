@@ -1,4 +1,9 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    NavLink
+} from "react-router-dom";
 
 import Category from "./pages/Category";
 import SubCategory from "./pages/SubCategory";
@@ -9,12 +14,45 @@ function App() {
         <BrowserRouter>
 
             <nav>
-                <h2>Product Management</h2>
+                <div className="brand">
+                    <div className="brand-logo">
+                        PM
+                    </div>
 
-                <div>
-                    <Link to="/categories">Categories</Link>
-                    <Link to="/subcategories">Subcategories</Link>
-                    <Link to="/products">Products</Link>
+                    <div>
+                        <h2>Product Manager</h2>
+                    </div>
+                </div>
+
+                <div className="nav-links">
+
+                    <NavLink
+                        to="/categories"
+                        className={({ isActive }) =>
+                            isActive ? "active" : ""
+                        }
+                    >
+                        Categories
+                    </NavLink>
+
+                    <NavLink
+                        to="/subcategories"
+                        className={({ isActive }) =>
+                            isActive ? "active" : ""
+                        }
+                    >
+                        Subcategories
+                    </NavLink>
+
+                    <NavLink
+                        to="/products"
+                        className={({ isActive }) =>
+                            isActive ? "active" : ""
+                        }
+                    >
+                        Products
+                    </NavLink>
+
                 </div>
             </nav>
 

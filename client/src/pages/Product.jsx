@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import { useToast } from "../components/Toast";
 
 function Product() {
     const [products, setProducts] = useState([]);
@@ -16,6 +17,7 @@ function Product() {
 
     const [editId, setEditId] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { showToast } = useToast();
 
     // Fetch categories
     const fetchCategories = async () => {
@@ -83,12 +85,18 @@ function Product() {
             mrp === "" ||
             price === ""
         ) {
-            alert("All product fields are required");
+            showToast(
+                "Please fill in all product fields",
+                "warning"
+            );
             return;
         }
 
         if (Number(price) > Number(mrp)) {
-            alert("Price cannot be greater than MRP");
+            showToast(
+                "Price cannot be greater than MRP",
+                "warning"
+            );
             return;
         }
 
@@ -106,20 +114,21 @@ function Product() {
             if (editId) {
                 await api.put(`/products/${editId}`, data);
 
-                alert("Product updated successfully");
+                showToast("Product updated successfully");
             } else {
                 await api.post("/products", data);
 
-                alert("Product created successfully");
+                showToast("Product created successfully");
             }
 
             clearForm();
             fetchProducts();
 
         } catch (error) {
-            alert(
+            showToast(
                 error.response?.data?.message ||
-                "Something went wrong"
+                "Something went wrong",
+                "error"
             );
         }
     };
@@ -152,7 +161,7 @@ function Product() {
         try {
             await api.delete(`/products/${id}`);
 
-            alert("Product deleted successfully");
+            showToast("Product deleted successfully");
 
             fetchProducts();
 
