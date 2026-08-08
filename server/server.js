@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const categoryRoutes = require("./routes/categoryRoutes");
 const subCategoryRoutes = require("./routes/subCategoryRoutes");
+const productRoutes = require("./routes/productRoutes");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use("/api/categories", categoryRoutes);
 app.use("/api/subcategories", subCategoryRoutes);
+app.use("/api/products", productRoutes);
 
 mongoose
     .connect(process.env.MONGO_URI)
