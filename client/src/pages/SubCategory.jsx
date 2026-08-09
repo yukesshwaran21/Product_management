@@ -189,7 +189,8 @@ function SubCategory() {
 
             {/* Table */}
 
-            <table>
+            <div className="table-container">
+                <table>
 
                 <thead>
 
@@ -273,6 +274,7 @@ function SubCategory() {
                 </tbody>
 
             </table>
+            </div>
 
         </div>
     );

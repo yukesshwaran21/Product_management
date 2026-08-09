@@ -126,7 +126,8 @@ function Category() {
 
             </form>
 
-            <table>
+            <div className="table-container">
+                <table>
 
                 <thead>
                     <tr>
@@ -181,6 +182,7 @@ function Category() {
                 </tbody>
 
             </table>
+            </div>
 
         </div>
     );
