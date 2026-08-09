@@ -383,7 +383,7 @@ function Product() {
                         {products.length === 0 ? (
 
                             <tr>
-                                <td colSpan="9">
+                                <td colSpan="9" className="empty-row">
                                     No products found
                                 </td>
                             </tr>
@@ -395,45 +395,45 @@ function Product() {
 
                                     <tr key={product._id}>
 
-                                        <td>
+                                        <td data-label="S.No">
                                             {index + 1}
                                         </td>
 
-                                        <td>
+                                        <td data-label="Product">
                                             {product.productName}
                                         </td>
 
-                                        <td>
+                                        <td data-label="Code">
                                             {product.productCode}
                                         </td>
 
-                                        <td>
+                                        <td data-label="Category">
                                             {
                                                 product.category
                                                     ?.categoryName
                                             }
                                         </td>
 
-                                        <td>
+                                        <td data-label="Subcategory">
                                             {
                                                 product.subCategory
                                                     ?.subCategoryName
                                             }
                                         </td>
 
-                                        <td>
+                                        <td data-label="Brand">
                                             {product.brand}
                                         </td>
 
-                                        <td>
+                                        <td data-label="MRP">
                                             ₹{product.mrp}
                                         </td>
 
-                                        <td>
+                                        <td data-label="Price">
                                             ₹{product.price}
                                         </td>
 
-                                        <td>
+                                        <td data-label="Actions">
 
                                             <button
                                                 onClick={() =>

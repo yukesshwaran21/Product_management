@@ -208,7 +208,7 @@ function SubCategory() {
                     {subCategories.length === 0 ? (
 
                         <tr>
-                            <td colSpan="4">
+                            <td colSpan="4" className="empty-row">
                                 No subcategories found
                             </td>
                         </tr>
@@ -220,11 +220,11 @@ function SubCategory() {
 
                                 <tr key={subCategory._id}>
 
-                                    <td>
+                                    <td data-label="S.No">
                                         {index + 1}
                                     </td>
 
-                                    <td>
+                                    <td data-label="Category">
                                         {
                                             subCategory
                                                 .category
@@ -232,14 +232,14 @@ function SubCategory() {
                                         }
                                     </td>
 
-                                    <td>
+                                    <td data-label="Subcategory">
                                         {
                                             subCategory
                                                 .subCategoryName
                                         }
                                     </td>
 
-                                    <td>
+                                    <td data-label="Actions">
 
                                         <button
                                             onClick={() =>

@@ -140,7 +140,7 @@ function Category() {
 
                     {categories.length === 0 ? (
                         <tr>
-                            <td colSpan="3">
+                            <td colSpan="3" className="empty-row">
                                 No categories found
                             </td>
                         </tr>
@@ -148,13 +148,13 @@ function Category() {
                         categories.map((category, index) => (
                             <tr key={category._id}>
 
-                                <td>{index + 1}</td>
+                                <td data-label="S.No">{index + 1}</td>
 
-                                <td>
+                                <td data-label="Category">
                                     {category.categoryName}
                                 </td>
 
-                                <td>
+                                <td data-label="Actions">
 
                                     <button
                                         onClick={() =>

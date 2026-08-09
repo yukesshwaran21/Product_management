@@ -580,14 +580,104 @@ td button:last-child:hover {
 
     .form-buttons button {
         width: 100%;
-    }
-
     .table-container {
-        overflow-x: auto;
+        width: 100%;
+        overflow: visible;
     }
-
+    
     table {
-        min-width: 760px;
+        width: 100%;
+        display: block;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+    }
+    
+    thead {
+        display: none;
+    }
+    
+    tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    
+    tbody tr {
+        display: block;
+        width: 100%;
+    
+        background: #ffffff;
+    
+        border: 1px solid #e7ebf0;
+        border-radius: 14px;
+    
+        padding: 6px 18px;
+    
+        box-shadow:
+            0 4px 14px rgba(15, 23, 42, 0.05);
+    }
+    
+    tbody tr:hover {
+        background: #ffffff;
+    }
+    
+    tbody td {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+    
+        align-items: center;
+    
+        gap: 12px;
+    
+        padding: 13px 0;
+    
+        border-bottom: 1px solid #edf0f4;
+    
+        font-size: 14px;
+    
+        text-align: left;
+    }
+    
+    tbody td:last-child {
+        border-bottom: none;
+    }
+    
+    tbody td::before {
+        content: attr(data-label);
+    
+        color: #94a3b8;
+    
+        font-size: 11px;
+        font-weight: 700;
+    
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+    
+    tbody td:first-child {
+        color: #2563eb;
+        font-weight: 700;
+    }
+    
+    tbody td:last-child {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    
+        padding-top: 15px;
+    }
+    
+    tbody td:last-child::before {
+        margin-right: auto;
+    }
+    
+    tbody td button {
+        margin: 0;
+    
+        height: 36px;
+    
+        padding: 0 13px;
     }
 
     th,
@@ -602,6 +692,17 @@ td button:last-child:hover {
 
         width: auto;
     }
+
+        .empty-row {
+            display: table-cell !important;
+            text-align: center !important;
+            color: #94a3b8;
+            padding: 30px !important;
+        }
+    
+        .empty-row::before {
+            display: none;
+        }
 }
 
 /* =========================
@@ -636,6 +737,24 @@ td button:last-child:hover {
     .toast {
         left: 12px;
         right: 12px;
+    }
+    tbody tr {
+        padding: 5px 15px;
+        border-radius: 12px;
+    }
+
+    tbody td {
+        grid-template-columns: 95px 1fr;
+        padding: 12px 0;
+    }
+
+    tbody td:last-child {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    tbody td button {
+        min-width: 72px;
     }
 }
 
@@ -680,4 +799,5 @@ td button:last-child:hover {
 .nav-links a.active {
     color: #2563eb;
     background: #eff6ff;
+}
 }
