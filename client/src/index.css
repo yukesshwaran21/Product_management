@@ -77,7 +77,6 @@ nav h2 {
 
 nav div {
     display: flex;
-
     align-items: center;
 
     gap: 8px;
@@ -96,6 +95,8 @@ nav a {
     font-weight: 600;
 
     transition: 0.2s ease;
+
+    white-space: nowrap;
 }
 
 nav a:hover {
@@ -112,7 +113,6 @@ nav a:hover {
     width: min(1200px, 92%);
 
     max-width: 100%;
-
     min-width: 0;
 
     margin: 0 auto;
@@ -138,9 +138,7 @@ nav a:hover {
 
 .form {
     width: 100%;
-
-    max-width: 100%;
-
+    max-width: 1000px;
     min-width: 0;
 
     background: #ffffff;
@@ -152,7 +150,6 @@ nav a:hover {
     border-radius: 14px;
 
     display: flex;
-
     align-items: center;
 
     gap: 12px;
@@ -185,7 +182,7 @@ nav a:hover {
 }
 
 .form input {
-    width: 300px;
+    width: 400px;
 }
 
 .form input:focus,
@@ -206,9 +203,7 @@ nav a:hover {
 
 .product-form {
     width: 100%;
-
-    max-width: 100%;
-
+    max-width: 1000px;
     min-width: 0;
 
     background: #ffffff;
@@ -251,8 +246,7 @@ nav a:hover {
 
 .form-group input,
 .form-group select {
-    width: 100%;
-
+    width: 95%;
     max-width: 100%;
 
     height: 44px;
@@ -347,18 +341,15 @@ button[type="button"]:hover {
 }
 
 /* =========================
-   TABLE
+   TABLE CONTAINER
 ========================= */
 
 .table-container {
     width: 100%;
-
-    max-width: 100%;
-
+    max-width: 1000px;
     min-width: 0;
 
     overflow-x: auto;
-
     overflow-y: hidden;
 
     -webkit-overflow-scrolling: touch;
@@ -371,8 +362,14 @@ button[type="button"]:hover {
         0 4px 16px rgba(15, 23, 42, 0.04);
 }
 
+/* =========================
+   TABLE
+========================= */
+
 table {
     width: 100%;
+
+    min-width: 650px;
 
     border-collapse: separate;
 
@@ -420,10 +417,6 @@ td {
     font-size: 14px;
 }
 
-tbody tr:last-child td {
-    border-bottom: none;
-}
-
 tbody tr {
     transition: background 0.15s ease;
 }
@@ -432,21 +425,101 @@ tbody tr:hover {
     background: #f8fafc;
 }
 
-td button {
-    height: 34px;
+tbody tr:last-child td {
+    border-bottom: none;
+}
 
-    padding: 0 11px;
+/* =========================
+   S.NO COLUMN
+========================= */
 
-    margin-right: 6px;
+table th:first-child,
+table td:first-child {
+    width: 70px;
+
+    min-width: 70px;
+
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+/* =========================
+   ACTION COLUMN
+========================= */
+
+table th:last-child,
+table td:last-child {
+    width: 190px;
+
+    min-width: 190px;
+
+    max-width: 190px;
+
+    text-align: center;
+
+    vertical-align: middle;
+
+    white-space: nowrap;
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+table td:last-child {
+    padding: 12px 10px;
+}
+
+table td:last-child button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 72px;
+
+    min-width: 72px;
+
+    max-width: 72px;
+
+    height: 38px;
+
+    padding: 0;
+
+    margin: 0 4px;
+
+    border-radius: 8px;
+
+    vertical-align: middle;
 
     font-size: 12px;
 }
 
-td button:last-child {
+/* Edit */
+
+table td:last-child button:first-child {
+    background: #2563eb;
+}
+
+table td:last-child button:first-child:hover {
+    background: #1d4ed8;
+}
+
+/* Delete */
+
+table td:last-child button:last-child {
     background: #ef4444;
 }
 
-td button:last-child:hover {
+table td:last-child button:last-child:hover {
     background: #dc2626;
 }
 
@@ -458,7 +531,6 @@ td button:last-child:hover {
     position: fixed;
 
     top: 88px;
-
     right: 24px;
 
     width: min(380px, calc(100vw - 32px));
@@ -489,7 +561,6 @@ td button:last-child:hover {
 
 .toast-icon {
     width: 34px;
-
     height: 34px;
 
     flex-shrink: 0;
@@ -497,7 +568,6 @@ td button:last-child:hover {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border-radius: 50%;
@@ -535,7 +605,6 @@ td button:last-child:hover {
 
 .toast-close {
     width: 28px;
-
     height: 28px;
 
     padding: 0;
@@ -602,420 +671,6 @@ td button:last-child:hover {
 }
 
 /* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 768px) {
-
-    nav {
-        width: 100%;
-
-        min-height: auto;
-
-        padding: 16px 5%;
-
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 12px;
-
-        overflow: hidden;
-    }
-
-    nav h2 {
-        font-size: 19px;
-    }
-
-    nav div {
-        width: 100%;
-
-        max-width: 100%;
-
-        overflow-x: auto;
-
-        overflow-y: hidden;
-
-        padding-bottom: 2px;
-
-        gap: 4px;
-
-        -webkit-overflow-scrolling: touch;
-    }
-
-    nav a {
-        flex-shrink: 0;
-
-        font-size: 13px;
-
-        padding: 8px 11px;
-    }
-
-    .page {
-        width: 92%;
-
-        max-width: 92%;
-
-        min-width: 0;
-
-        padding: 28px 0 50px;
-
-        overflow-x: hidden;
-    }
-
-    .page h1 {
-        font-size: 25px;
-
-        margin-bottom: 20px;
-    }
-
-    /* =========================
-       GENERAL FORM
-    ========================= */
-
-    .form {
-        width: 100%;
-
-        max-width: 100%;
-
-        min-width: 0;
-
-        flex-direction: column;
-
-        align-items: stretch;
-
-        padding: 18px;
-    }
-
-    .form input,
-    .form select {
-        width: 100%;
-
-        min-width: 0;
-
-        max-width: 100%;
-    }
-
-    .form button {
-        width: 100%;
-    }
-
-    /* =========================
-       PRODUCT FORM
-    ========================= */
-
-    .product-form {
-        width: 100%;
-
-        max-width: 100%;
-
-        min-width: 0;
-
-        grid-template-columns: 1fr;
-
-        padding: 18px;
-
-        gap: 16px;
-    }
-
-    .form-buttons {
-        grid-column: span 1;
-
-        flex-direction: column;
-    }
-
-    .form-buttons button {
-        width: 100%;
-    }
-
-    /* =========================
-       TABLE CONTAINER
-       
-       ONLY THIS ELEMENT
-       CAN SCROLL HORIZONTALLY
-    ========================= */
-
-    .table-container {
-        display: block;
-
-        width: 100%;
-
-        max-width: 100%;
-
-        min-width: 0;
-
-        overflow-x: auto;
-
-        overflow-y: hidden;
-
-        -webkit-overflow-scrolling: touch;
-
-        overscroll-behavior-x: contain;
-
-        border-radius: 14px;
-    }
-
-   /* =========================
-   MOBILE TABLE
-========================= */
-
-.table-container {
-    width: 100%;
-    max-width: 100%;
-
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    -webkit-overflow-scrolling: touch;
-
-    overscroll-behavior-x: contain;
-
-    border-radius: 14px;
-}
-
-.table-container table {
-    width: max-content !important;
-
-    /*
-       Category/Subcategory need enough
-       width to create horizontal scroll.
-    */
-    min-width: 650px !important;
-
-    display: table !important;
-
-    border-collapse: separate;
-    border-spacing: 0;
-
-    background: #ffffff;
-
-    border: 1px solid #e7ebf0;
-
-    border-radius: 14px;
-}
-
-/* Keep header visible */
-.table-container thead {
-    display: table-header-group !important;
-}
-
-/* Keep tbody normal */
-.table-container tbody {
-    display: table-row-group !important;
-}
-
-/* Keep each row horizontal */
-.table-container tbody tr {
-    display: table-row !important;
-
-    width: auto;
-
-    background: #ffffff;
-
-    padding: 0;
-
-    border: none;
-
-    box-shadow: none;
-}
-
-/* Keep cells horizontal */
-.table-container th,
-.table-container td {
-    display: table-cell !important;
-
-    padding: 14px 16px !important;
-
-    white-space: nowrap;
-
-    vertical-align: middle;
-
-    text-align: left;
-}
-
-/* S.NO */
-.table-container tbody td:first-child {
-    width: 65px !important;
-
-    min-width: 65px;
-
-    text-align: center !important;
-
-    font-weight: 700;
-}
-
-/* Actions */
-.table-container tbody td:last-child {
-    min-width: 180px;
-
-    text-align: center !important;
-
-    white-space: nowrap;
-}
-
-/* Edit/Delete */
-.table-container tbody td:last-child button {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    width: 72px !important;
-    min-width: 72px;
-
-    height: 38px;
-
-    margin: 0 4px !important;
-
-    padding: 0 8px;
-
-    border-radius: 8px;
-
-    vertical-align: middle;
-}
-
-/* Remove data-label/card behavior */
-.table-container tbody td::before {
-    display: none !important;
-
-    content: none !important;
-}
-}
-
-/* =========================
-   SMALL MOBILE
-========================= */
-
-@media (max-width: 480px) {
-
-    nav {
-        width: 100%;
-
-        padding: 14px 3%;
-    }
-
-    nav div {
-        gap: 4px;
-    }
-
-    nav a {
-        font-size: 12px;
-    }
-
-    .page {
-        width: 94%;
-
-        max-width: 94%;
-
-        min-width: 0;
-    }
-
-    .product-form {
-        padding: 15px;
-    }
-
-    .form {
-        padding: 15px;
-    }
-
-    /* =========================
-       TABLE SCROLL AREA
-    ========================= */
-
-    .table-container {
-        width: 100%;
-
-        max-width: 100%;
-
-        min-width: 0;
-
-        overflow-x: auto;
-
-        overflow-y: hidden;
-
-        -webkit-overflow-scrolling: touch;
-
-        overscroll-behavior-x: contain;
-    }
-
-    /* =========================
-       FORCE TABLE WIDTH
-       
-       This creates the horizontal
-       scrolling area.
-    ========================= */
-
-    table {
-        width: max-content !important;
-
-        min-width: 650px !important;
-
-        display: table !important;
-    }
-
-    th,
-    td {
-        padding: 12px 14px;
-    }
-
-    /* =========================
-       S.NO
-    ========================= */
-
-    tbody td:first-child {
-        width: 60px !important;
-
-        min-width: 60px;
-
-        text-align: center !important;
-
-        font-size: 13px;
-    }
-
-    /* =========================
-       ACTIONS
-    ========================= */
-
-    tbody td:last-child {
-        min-width: 175px;
-
-        text-align: center !important;
-
-        white-space: nowrap;
-    }
-
-    /* =========================
-       ACTION BUTTONS
-    ========================= */
-
-    tbody td:last-child button {
-        width: 68px !important;
-
-        min-width: 68px;
-
-        height: 36px;
-
-        margin: 0 3px !important;
-
-        padding: 0 8px;
-
-        font-size: 11px;
-    }
-
-    /* =========================
-       TOAST
-    ========================= */
-
-    .toast {
-        left: 12px;
-
-        right: 12px;
-
-        max-width: calc(100vw - 24px);
-    }
-}
-
-/* =========================
    BRAND
 ========================= */
 
@@ -1029,18 +684,16 @@ td button:last-child:hover {
 
 .brand-logo {
     width: 38px;
-
     height: 38px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: #2563eb;
 
-    color: white;
+    color: #ffffff;
 
     border-radius: 9px;
 
@@ -1071,4 +724,498 @@ td button:last-child:hover {
     color: #2563eb;
 
     background: #eff6ff;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    nav {
+        width: 100%;
+        max-width: 100%;
+
+        min-height: auto;
+
+        padding: 16px 5%;
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+
+        overflow: hidden;
+    }
+
+    nav h2 {
+        font-size: 19px;
+    }
+
+    nav div {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        padding-bottom: 2px;
+
+        gap: 4px;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+    nav a {
+        flex-shrink: 0;
+
+        font-size: 13px;
+
+        padding: 8px 11px;
+    }
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .page {
+        width: 92%;
+        max-width: 92%;
+
+        min-width: 0;
+
+        padding: 28px 0 50px;
+
+        overflow-x: hidden;
+    }
+
+    .page h1 {
+        font-size: 25px;
+
+        margin-bottom: 20px;
+    }
+
+    /* =========================
+       GENERAL FORM
+    ========================= */
+
+    .form {
+        width: 100%;
+        max-width: 100%;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 18px;
+    }
+
+    .form input,
+    .form select {
+        width: 100%;
+
+        min-width: 0;
+
+        max-width: 100%;
+    }
+
+    .form button {
+        width: 100%;
+    }
+
+    /* =========================
+       PRODUCT FORM
+    ========================= */
+
+    .product-form {
+        width: 100%;
+        max-width: 100%;
+
+        grid-template-columns: 1fr;
+
+        padding: 18px;
+
+        gap: 16px;
+    }
+
+    .form-buttons {
+        grid-column: span 1;
+
+        flex-direction: column;
+    }
+
+    .form-buttons button {
+        width: 100%;
+    }
+
+    /* =========================
+       TABLE CONTAINER
+       
+       ONLY THIS AREA SCROLLS
+    ========================= */
+
+    .table-container {
+        display: block;
+
+        width: 100%;
+        max-width: 100%;
+
+        min-width: 0;
+
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+
+        overscroll-behavior-x: contain;
+
+        border-radius: 14px;
+    }
+
+    /* =========================
+       TABLE
+       
+       Make table wider than phone
+       so container can scroll.
+    ========================= */
+
+    .table-container table {
+        width: max-content !important;
+
+        min-width: 650px !important;
+
+        display: table !important;
+
+        border-collapse: separate;
+
+        border-spacing: 0;
+
+        background: #ffffff;
+
+        border: 1px solid #e7ebf0;
+
+        border-radius: 14px;
+
+        overflow: hidden;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .table-container thead {
+        display: table-header-group !important;
+    }
+
+    /* =========================
+       BODY
+    ========================= */
+
+    .table-container tbody {
+        display: table-row-group !important;
+    }
+
+    /* =========================
+       ROW
+    ========================= */
+
+    .table-container tbody tr {
+        display: table-row !important;
+
+        width: auto;
+
+        background: #ffffff;
+
+        padding: 0;
+
+        border: none;
+
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+    .table-container tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    /* =========================
+       CELLS
+    ========================= */
+
+    .table-container th,
+    .table-container td {
+        display: table-cell !important;
+
+        padding: 13px 14px !important;
+
+        white-space: nowrap;
+
+        vertical-align: middle;
+    }
+
+    /* Remove old data-label/card behavior */
+    .table-container tbody td::before {
+        display: none !important;
+
+        content: none !important;
+    }
+
+    /* =========================
+       S.NO
+    ========================= */
+
+    .table-container table th:first-child,
+    .table-container table td:first-child {
+        width: 65px !important;
+
+        min-width: 65px !important;
+
+        text-align: center !important;
+
+        vertical-align: middle !important;
+
+        font-weight: 700;
+    }
+
+    /* =========================
+       ACTIONS
+    ========================= */
+
+    .table-container table th:last-child,
+    .table-container table td:last-child {
+        width: 190px !important;
+
+        min-width: 190px !important;
+
+        max-width: 190px !important;
+
+        text-align: center !important;
+
+        vertical-align: middle !important;
+
+        white-space: nowrap !important;
+
+        padding: 12px 10px !important;
+    }
+
+    /* =========================
+       EDIT / DELETE
+    ========================= */
+
+    .table-container table td:last-child button {
+        display: inline-flex !important;
+
+        align-items: center;
+
+        justify-content: center;
+
+        width: 72px !important;
+
+        min-width: 72px !important;
+
+        max-width: 72px !important;
+
+        height: 38px !important;
+
+        padding: 0 !important;
+
+        margin: 0 4px !important;
+
+        border-radius: 8px;
+
+        vertical-align: middle;
+
+        font-size: 12px;
+    }
+
+    .table-container table td:last-child button:first-child {
+        background: #2563eb;
+    }
+
+    .table-container table td:last-child button:last-child {
+        background: #ef4444;
+    }
+
+    /* =========================
+       EMPTY ROW
+    ========================= */
+
+    .empty-row {
+        display: table-cell !important;
+
+        text-align: center !important;
+
+        color: #94a3b8;
+
+        padding: 30px !important;
+    }
+
+    .empty-row::before {
+        display: none !important;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+        top: 76px;
+
+        right: 16px;
+
+        left: 16px;
+
+        width: auto;
+
+        max-width: calc(100vw - 32px);
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    /* =========================
+       NAV
+    ========================= */
+
+    nav {
+        padding: 14px 3%;
+    }
+
+    nav div {
+        gap: 4px;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .page {
+        width: 94%;
+
+        max-width: 94%;
+    }
+
+    /* =========================
+       FORMS
+    ========================= */
+
+    .product-form {
+        padding: 15px;
+    }
+
+    .form {
+        padding: 15px;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-container {
+        width: 100%;
+
+        max-width: 100%;
+
+        min-width: 0;
+
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+
+        overscroll-behavior-x: contain;
+    }
+
+    .table-container table {
+        width: max-content !important;
+
+        min-width: 650px !important;
+
+        display: table !important;
+    }
+
+    .table-container th,
+    .table-container td {
+        padding: 12px 14px !important;
+    }
+
+    /* =========================
+       S.NO
+    ========================= */
+
+    .table-container table th:first-child,
+    .table-container table td:first-child {
+        width: 60px !important;
+
+        min-width: 60px !important;
+
+        text-align: center !important;
+    }
+
+    /* =========================
+       ACTIONS
+    ========================= */
+
+    .table-container table th:last-child,
+    .table-container table td:last-child {
+        width: 190px !important;
+
+        min-width: 190px !important;
+
+        max-width: 190px !important;
+
+        text-align: center !important;
+
+        white-space: nowrap !important;
+
+        padding: 12px 10px !important;
+    }
+
+    /* =========================
+       ACTION BUTTONS
+    ========================= */
+
+    .table-container table td:last-child button {
+        width: 72px !important;
+
+        min-width: 72px !important;
+
+        max-width: 72px !important;
+
+        height: 38px !important;
+
+        margin: 0 3px !important;
+
+        padding: 0 !important;
+
+        font-size: 11px;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+        left: 12px;
+
+        right: 12px;
+
+        max-width: calc(100vw - 24px);
+    }
 }
