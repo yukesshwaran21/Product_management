@@ -465,9 +465,9 @@ table td:last-child {
 
 table th:nth-child(2),
 table td:nth-child(2) {
-    width: 300px;
-    min-width: 300px;
-    max-width: 300px;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
 }
 
 /* =========================
