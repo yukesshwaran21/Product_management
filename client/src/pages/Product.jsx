@@ -1,8 +1,79 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useToast } from "../components/Toast";
+import "./Product.css";
+
+function EditIcon() {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="product-action-icon"
+        >
+            <path
+                d="M12 20h9"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+
+            <path
+                d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+}
+
+function DeleteIcon() {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="product-action-icon"
+        >
+            <path
+                d="M3 6h18"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+
+            <path
+                d="M8 6V4h8v2"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+
+            <path
+                d="M19 6l-1 14H6L5 6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinejoin="round"
+            />
+
+            <path
+                d="M10 11v5M14 11v5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+        </svg>
+    );
+}
+
 
 function Product() {
+
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
@@ -18,31 +89,58 @@ function Product() {
 
     const [editId, setEditId] = useState(null);
     const [loading, setLoading] = useState(true);
+
     const { showToast } = useToast();
 
-    // Fetch categories
+
+    // =====================================================
+    // FETCH CATEGORIES
+    // =====================================================
+
     const fetchCategories = async () => {
+
         try {
+
             const res = await api.get("/categories");
+
             setCategories(res.data.data);
+
         } catch (error) {
+
             console.log(error);
+
         }
     };
 
-    // Fetch subcategories
+
+    // =====================================================
+    // FETCH SUBCATEGORIES
+    // =====================================================
+
     const fetchSubCategories = async () => {
+
         try {
+
             const res = await api.get("/subcategories");
+
             setSubCategories(res.data.data);
+
         } catch (error) {
+
             console.log(error);
+
         }
     };
 
-    // Fetch products
+
+    // =====================================================
+    // FETCH PRODUCTS
+    // =====================================================
+
     const fetchProducts = async () => {
+
         try {
+
             setLoading(true);
 
             const res = await api.get("/products");
@@ -50,21 +148,36 @@ function Product() {
             setProducts(res.data.data);
 
         } catch (error) {
+
             console.log(error);
 
         } finally {
+
             setLoading(false);
+
         }
     };
 
+
+    // =====================================================
+    // INITIAL LOAD
+    // =====================================================
+
     useEffect(() => {
+
         fetchCategories();
         fetchSubCategories();
         fetchProducts();
+
     }, []);
 
-    // Category change
+
+    // =====================================================
+    // CATEGORY CHANGE
+    // =====================================================
+
     const handleCategoryChange = (e) => {
+
         const selectedCategory = e.target.value;
 
         setCategory(selectedCategory);
@@ -73,9 +186,15 @@ function Product() {
         setSubCategory("");
     };
 
-    // Create / Update product
+
+    // =====================================================
+    // CREATE / UPDATE PRODUCT
+    // =====================================================
+
     const handleSubmit = async (e) => {
+
         e.preventDefault();
+
 
         if (
             !productName.trim() ||
@@ -86,22 +205,29 @@ function Product() {
             mrp === "" ||
             price === ""
         ) {
+
             showToast(
                 "Please fill in all product fields",
                 "warning"
             );
+
             return;
         }
 
+
         if (Number(price) > Number(mrp)) {
+
             showToast(
                 "Price cannot be greater than MRP",
                 "warning"
             );
+
             return;
         }
 
+
         try {
+
             const data = {
                 productName,
                 productCode,
@@ -112,20 +238,37 @@ function Product() {
                 price: Number(price)
             };
 
+
             if (editId) {
-                await api.put(`/products/${editId}`, data);
 
-                showToast("Product updated successfully");
+                await api.put(
+                    `/products/${editId}`,
+                    data
+                );
+
+                showToast(
+                    "Product updated successfully"
+                );
+
             } else {
-                await api.post("/products", data);
 
-                showToast("Product created successfully");
+                await api.post(
+                    "/products",
+                    data
+                );
+
+                showToast(
+                    "Product created successfully"
+                );
             }
 
+
             clearForm();
+
             fetchProducts();
 
         } catch (error) {
+
             showToast(
                 error.response?.data?.message ||
                 "Something went wrong",
@@ -134,23 +277,53 @@ function Product() {
         }
     };
 
-    // Edit product
+
+    // =====================================================
+    // EDIT PRODUCT
+    // =====================================================
+
     const handleEdit = (product) => {
+
         setEditId(product._id);
 
-        setProductName(product.productName);
-        setProductCode(product.productCode);
+        setProductName(
+            product.productName
+        );
 
-        setCategory(product.category._id);
-        setSubCategory(product.subCategory._id);
+        setProductCode(
+            product.productCode
+        );
 
-        setBrand(product.brand);
-        setMrp(product.mrp);
-        setPrice(product.price);
+        setCategory(
+            product.category?._id || ""
+        );
+
+        setSubCategory(
+            product.subCategory?._id || ""
+        );
+
+        setBrand(
+            product.brand
+        );
+
+        setMrp(
+            product.mrp
+        );
+
+        setPrice(
+            product.price
+        );
+
+        setProductFile(null);
     };
 
-    // Delete product
+
+    // =====================================================
+    // DELETE PRODUCT
+    // =====================================================
+
     const handleDelete = async (id) => {
+
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this product?"
         );
@@ -159,23 +332,36 @@ function Product() {
             return;
         }
 
-        try {
-            await api.delete(`/products/${id}`);
 
-            showToast("Product deleted successfully");
+        try {
+
+            await api.delete(
+                `/products/${id}`
+            );
+
+            showToast(
+                "Product deleted successfully"
+            );
 
             fetchProducts();
 
         } catch (error) {
-            alert(
+
+            showToast(
                 error.response?.data?.message ||
-                "Failed to delete product"
+                "Failed to delete product",
+                "error"
             );
         }
     };
 
-    // Clear form
+
+    // =====================================================
+    // CLEAR FORM
+    // =====================================================
+
     const clearForm = () => {
+
         setProductName("");
         setProductCode("");
         setCategory("");
@@ -185,165 +371,269 @@ function Product() {
         setPrice("");
         setProductFile(null);
 
-        // Reset the file input element if it exists
-        const fileInput = document.getElementById("product-file");
+
+        const fileInput =
+            document.getElementById(
+                "product-file"
+            );
+
         if (fileInput) {
             fileInput.value = "";
         }
 
+
         setEditId(null);
     };
 
-    // Filter subcategories by category
-    const filteredSubCategories = subCategories.filter(
-        (sub) =>
-            sub.category?._id === category
-    );
+
+    // =====================================================
+    // FILTER SUBCATEGORIES
+    // =====================================================
+
+    const filteredSubCategories =
+        subCategories.filter(
+            (sub) =>
+                sub.category?._id === category
+        );
+
+
+    // =====================================================
+    // UI
+    // =====================================================
 
     return (
-        <div className="page">
 
-            <h1>Products Master</h1>
+        <div className="product-page">
+
+
+            {/* =================================================
+                HEADER
+            ================================================= */}
+
+            <div className="product-header">
+
+                <h1>
+                    Products Master
+                </h1>
+
+                <p>
+                    Manage your products, pricing and product details
+                </p>
+
+            </div>
+
+
+            {/* =================================================
+                PRODUCT FORM
+            ================================================= */}
 
             <form
                 onSubmit={handleSubmit}
-                className="product-form"
+                className="product-form-page"
             >
 
+
                 {/* Product Name */}
-                <div className="form-group">
-                    <label>Product Name</label>
+
+                <div className="product-form-group">
+
+                    <label>
+                        Product Name
+                    </label>
 
                     <input
                         type="text"
                         placeholder="Enter product name"
                         value={productName}
                         onChange={(e) =>
-                            setProductName(e.target.value)
+                            setProductName(
+                                e.target.value
+                            )
                         }
                     />
+
                 </div>
 
 
                 {/* Product Code */}
-                <div className="form-group">
-                    <label>Product Code</label>
+
+                <div className="product-form-group">
+
+                    <label>
+                        Product Code
+                    </label>
 
                     <input
                         type="text"
                         placeholder="Enter product code"
                         value={productCode}
                         onChange={(e) =>
-                            setProductCode(e.target.value)
+                            setProductCode(
+                                e.target.value
+                            )
                         }
                     />
+
                 </div>
 
 
                 {/* Category */}
-                <div className="form-group">
-                    <label>Category</label>
+
+                <div className="product-form-group">
+
+                    <label>
+                        Category
+                    </label>
 
                     <select
                         value={category}
-                        onChange={handleCategoryChange}
+                        onChange={
+                            handleCategoryChange
+                        }
                     >
+
                         <option value="">
                             Select Category
                         </option>
 
-                        {categories.map((cat) => (
-                            <option
-                                key={cat._id}
-                                value={cat._id}
-                            >
-                                {cat.categoryName}
-                            </option>
-                        ))}
+                        {categories.map(
+                            (cat) => (
+
+                                <option
+                                    key={cat._id}
+                                    value={cat._id}
+                                >
+                                    {
+                                        cat.categoryName
+                                    }
+                                </option>
+
+                            )
+                        )}
+
                     </select>
+
                 </div>
 
 
                 {/* Subcategory */}
-                <div className="form-group">
-                    <label>Subcategory</label>
+
+                <div className="product-form-group">
+
+                    <label>
+                        Subcategory
+                    </label>
 
                     <select
                         value={subCategory}
                         onChange={(e) =>
-                            setSubCategory(e.target.value)
+                            setSubCategory(
+                                e.target.value
+                            )
                         }
                         disabled={!category}
                     >
+
                         <option value="">
+
                             {category
                                 ? "Select Subcategory"
                                 : "Select Category First"}
+
                         </option>
 
                         {filteredSubCategories.map(
                             (sub) => (
+
                                 <option
                                     key={sub._id}
                                     value={sub._id}
                                 >
-                                    {sub.subCategoryName}
+                                    {
+                                        sub.subCategoryName
+                                    }
                                 </option>
+
                             )
                         )}
+
                     </select>
+
                 </div>
 
 
                 {/* Brand */}
-                <div className="form-group">
-                    <label>Brand</label>
+
+                <div className="product-form-group">
+
+                    <label>
+                        Brand
+                    </label>
 
                     <input
                         type="text"
                         placeholder="Enter brand"
                         value={brand}
                         onChange={(e) =>
-                            setBrand(e.target.value)
+                            setBrand(
+                                e.target.value
+                            )
                         }
                     />
+
                 </div>
 
 
                 {/* MRP */}
-                <div className="form-group">
-                    <label>MRP</label>
+
+                <div className="product-form-group">
+
+                    <label>
+                        MRP
+                    </label>
 
                     <input
                         type="number"
                         placeholder="Enter MRP"
                         value={mrp}
                         onChange={(e) =>
-                            setMrp(e.target.value)
+                            setMrp(
+                                e.target.value
+                            )
                         }
                         min="0"
                     />
+
                 </div>
 
 
                 {/* Price */}
-                <div className="form-group">
-                    <label>Price</label>
+
+                <div className="product-form-group">
+
+                    <label>
+                        Price
+                    </label>
 
                     <input
                         type="number"
                         placeholder="Enter price"
                         value={price}
                         onChange={(e) =>
-                            setPrice(e.target.value)
+                            setPrice(
+                                e.target.value
+                            )
                         }
                         min="0"
                     />
+
                 </div>
 
 
                 {/* Product File */}
-                <div className="form-group file-upload-group">
+
+                <div className="product-form-group product-file-group">
+
                     <label htmlFor="product-file">
                         Product File
                     </label>
@@ -353,33 +643,48 @@ function Product() {
                         type="file"
                         accept="image/*,.pdf"
                         onChange={(e) =>
-                            setProductFile(e.target.files[0] || null)
+                            setProductFile(
+                                e.target.files[0] ||
+                                null
+                            )
                         }
                     />
 
                     {productFile && (
-                        <small className="file-name">
-                            Selected: {productFile.name}
+
+                        <small className="product-file-name">
+                            {productFile.name}
                         </small>
+
                     )}
+
                 </div>
 
 
-                <div className="form-buttons">
+                {/* Form Buttons */}
 
-                    <button type="submit">
+                <div className="product-form-actions">
+
+                    <button
+                        type="submit"
+                        className="product-submit-button"
+                    >
                         {editId
                             ? "Update Product"
                             : "Add Product"}
                     </button>
 
+
                     {editId && (
+
                         <button
                             type="button"
                             onClick={clearForm}
+                            className="product-cancel-button"
                         >
                             Cancel
                         </button>
+
                     )}
 
                 </div>
@@ -387,24 +692,54 @@ function Product() {
             </form>
 
 
-            {/* Product Table */}
+            {/* =================================================
+                PRODUCT TABLE
+            ================================================= */}
 
-            <div className="table-container">
+            <div className="product-table-wrapper">
 
-                <table>
+                <table className="product-table">
 
                     <thead>
 
                         <tr>
-                            <th>S.No</th>
-                            <th>Product</th>
-                            <th>Code</th>
-                            <th>Category</th>
-                            <th>Subcategory</th>
-                            <th>Brand</th>
-                            <th>MRP</th>
-                            <th>Price</th>
-                            <th>Actions</th>
+
+                            <th className="product-serial">
+                                S.NO
+                            </th>
+
+                            <th>
+                                PRODUCT
+                            </th>
+
+                            <th>
+                                CODE
+                            </th>
+
+                            <th>
+                                CATEGORY
+                            </th>
+
+                            <th>
+                                SUBCATEGORY
+                            </th>
+
+                            <th>
+                                BRAND
+                            </th>
+
+                            <th>
+                                MRP
+                            </th>
+
+                            <th>
+                                PRICE
+                            </th>
+
+                            <th className="product-actions-heading">
+                                ACTIONS
+                            </th>
+
                         </tr>
 
                     </thead>
@@ -415,9 +750,18 @@ function Product() {
                         {products.length === 0 ? (
 
                             <tr>
-                                <td colSpan="9" className="empty-row">
-                                    No products found
+
+                                <td
+                                    colSpan="9"
+                                    className="product-empty"
+                                >
+
+                                    {loading
+                                        ? "Loading products..."
+                                        : "No products found"}
+
                                 </td>
+
                             </tr>
 
                         ) : (
@@ -425,19 +769,40 @@ function Product() {
                             products.map(
                                 (product, index) => (
 
-                                    <tr key={product._id}>
+                                    <tr
+                                        key={product._id}
+                                    >
 
-                                        <td data-label="S.No">
+
+                                        {/* S.NO */}
+
+                                        <td
+                                            data-label="S.No"
+                                            className="product-serial"
+                                        >
                                             {index + 1}
                                         </td>
 
+
+                                        {/* PRODUCT */}
+
                                         <td data-label="Product">
-                                            {product.productName}
+                                            {
+                                                product.productName
+                                            }
                                         </td>
 
+
+                                        {/* CODE */}
+
                                         <td data-label="Code">
-                                            {product.productCode}
+                                            {
+                                                product.productCode
+                                            }
                                         </td>
+
+
+                                        {/* CATEGORY */}
 
                                         <td data-label="Category">
                                             {
@@ -446,6 +811,9 @@ function Product() {
                                             }
                                         </td>
 
+
+                                        {/* SUBCATEGORY */}
+
                                         <td data-label="Subcategory">
                                             {
                                                 product.subCategory
@@ -453,38 +821,68 @@ function Product() {
                                             }
                                         </td>
 
+
+                                        {/* BRAND */}
+
                                         <td data-label="Brand">
-                                            {product.brand}
+                                            {
+                                                product.brand
+                                            }
                                         </td>
+
+
+                                        {/* MRP */}
 
                                         <td data-label="MRP">
                                             ₹{product.mrp}
                                         </td>
 
+
+                                        {/* PRICE */}
+
                                         <td data-label="Price">
                                             ₹{product.price}
                                         </td>
 
-                                        <td data-label="Actions">
+
+                                        {/* ACTIONS */}
+
+                                        <td
+                                            data-label="Actions"
+                                            className="product-actions"
+                                        >
 
                                             <button
+                                                type="button"
+                                                className="product-icon-button product-edit-button"
                                                 onClick={() =>
                                                     handleEdit(
                                                         product
                                                     )
                                                 }
+                                                title="Edit product"
+                                                aria-label={`Edit ${product.productName}`}
                                             >
-                                                Edit
+
+                                                <EditIcon />
+
                                             </button>
 
+
                                             <button
+                                                type="button"
+                                                className="product-icon-button product-delete-button"
                                                 onClick={() =>
                                                     handleDelete(
                                                         product._id
                                                     )
                                                 }
+                                                title="Delete product"
+                                                aria-label={`Delete ${product.productName}`}
                                             >
-                                                Delete
+
+                                                <DeleteIcon />
+
                                             </button>
 
                                         </td>
