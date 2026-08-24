@@ -318,84 +318,129 @@
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    gap: 10px;
+    gap: 16px;
 }
 
 
 /* =====================================================
    ICON BUTTON
+   ICON ONLY - NO BOX
 ===================================================== */
 
-.subcategory-icon-button {
-    width: 42px;
-    height: 42px;
+.subcategory-actions .subcategory-icon-button {
+    width: 30px !important;
+    height: 30px !important;
 
-    display: inline-flex;
+    min-width: 30px !important;
+    min-height: 30px !important;
 
-    align-items: center;
-    justify-content: center;
+    padding: 0 !important;
+    margin: 0 !important;
 
-    border: none;
+    display: inline-flex !important;
 
-    border-radius: 9px;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: none !important;
+
+    outline: none !important;
+
+    border-radius: 0 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    color: inherit;
 
     cursor: pointer;
 
-    color: #ffffff;
+    appearance: none;
 
     transition:
         transform 0.15s ease,
-        box-shadow 0.15s ease,
-        background 0.15s ease;
-}
-
-.subcategory-action-icon {
-    width: 19px;
-    height: 19px;
-
-    display: block;
+        opacity 0.15s ease;
 }
 
 
 /* =====================================================
-   EDIT BUTTON
+   ACTION ICON
 ===================================================== */
 
-.subcategory-edit-button {
-    background: #2563eb;
-}
+.subcategory-actions .subcategory-action-icon {
+    width: 21px !important;
+    height: 21px !important;
 
-.subcategory-edit-button:hover {
-    background: #1d4ed8;
+    display: block !important;
 
-    box-shadow:
-        0 4px 10px rgba(37, 99, 235, 0.20);
+    background: transparent !important;
 
-    transform: translateY(-1px);
+    fill: none !important;
+
+    flex-shrink: 0;
 }
 
 
 /* =====================================================
-   DELETE BUTTON
+   EDIT ICON
 ===================================================== */
 
-.subcategory-delete-button {
-    background: #ef4444;
+.subcategory-actions .subcategory-edit-button {
+    color: #2563eb !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
 }
 
-.subcategory-delete-button:hover {
-    background: #dc2626;
+.subcategory-actions .subcategory-edit-button:hover {
+    color: #1d4ed8 !important;
 
-    box-shadow:
-        0 4px 10px rgba(239, 68, 68, 0.20);
+    background: transparent !important;
 
-    transform: translateY(-1px);
+    box-shadow: none !important;
+
+    transform: scale(1.15);
 }
 
-.subcategory-icon-button:active {
-    transform: translateY(1px);
+
+/* =====================================================
+   DELETE ICON
+===================================================== */
+
+.subcategory-actions .subcategory-delete-button {
+    color: #ef4444 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+}
+
+.subcategory-actions .subcategory-delete-button:hover {
+    color: #dc2626 !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    transform: scale(1.15);
+}
+
+
+/* =====================================================
+   ACTIVE
+===================================================== */
+
+.subcategory-actions .subcategory-icon-button:active {
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    transform: scale(0.95);
 }
 
 
@@ -604,7 +649,7 @@
     .subcategory-actions {
         justify-content: flex-end !important;
 
-        gap: 10px;
+        gap: 18px;
 
         padding-top: 14px !important;
     }
@@ -614,9 +659,34 @@
     }
 
 
-    .subcategory-icon-button {
-        width: 44px;
-        height: 44px;
+    /* Mobile icon buttons */
+
+    .subcategory-actions .subcategory-icon-button {
+        width: 32px !important;
+        height: 32px !important;
+
+        min-width: 32px !important;
+        min-height: 32px !important;
+
+        padding: 0 !important;
+
+        background: transparent !important;
+
+        border: none !important;
+
+        box-shadow: none !important;
+    }
+
+    .subcategory-actions .subcategory-action-icon {
+        width: 21px !important;
+        height: 21px !important;
+    }
+
+    .subcategory-actions .subcategory-edit-button,
+    .subcategory-actions .subcategory-delete-button {
+        background: transparent !important;
+
+        box-shadow: none !important;
     }
 }
 
@@ -629,6 +699,7 @@
 
     .subcategory-page {
         padding-left: 12px;
+
         padding-right: 12px;
     }
 
@@ -638,5 +709,9 @@
 
     .subcategory-table tbody tr {
         padding: 14px;
+    }
+
+    .subcategory-actions {
+        gap: 16px;
     }
 }
