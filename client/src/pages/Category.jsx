@@ -1,16 +1,83 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useToast } from "../components/Toast";
+import "./Category.css";
+
+function EditIcon() {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="action-icon"
+        >
+            <path
+                d="M12 20h9"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+            <path
+                d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+}
+
+function DeleteIcon() {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="action-icon"
+        >
+            <path
+                d="M3 6h18"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+            <path
+                d="M8 6V4h8v2"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+            <path
+                d="M19 6l-1 14H6L5 6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M10 11v5M14 11v5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+            />
+        </svg>
+    );
+}
 
 function Category() {
     const [categoryName, setCategoryName] = useState("");
     const [categories, setCategories] = useState([]);
     const [editId, setEditId] = useState(null);
+
     const { showToast } = useToast();
 
     const fetchCategories = async () => {
         try {
             const res = await api.get("/categories");
+
             setCategories(res.data.data);
         } catch (error) {
             console.log(error);
@@ -29,6 +96,7 @@ function Category() {
                 "Category name is required",
                 "warning"
             );
+
             return;
         }
 
@@ -38,13 +106,17 @@ function Category() {
                     categoryName
                 });
 
-                showToast("Category updated successfully");
+                showToast(
+                    "Category updated successfully"
+                );
             } else {
                 await api.post("/categories", {
                     categoryName
                 });
 
-                showToast("Category created successfully");
+                showToast(
+                    "Category created successfully"
+                );
             }
 
             setCategoryName("");
@@ -78,14 +150,17 @@ function Category() {
         try {
             await api.delete(`/categories/${id}`);
 
-            showToast("Category deleted successfully");
+            showToast(
+                "Category deleted successfully"
+            );
 
             fetchCategories();
 
         } catch (error) {
-            alert(
+            showToast(
                 error.response?.data?.message ||
-                "Failed to delete category"
+                "Failed to delete category",
+                "error"
             );
         }
     };
@@ -96,11 +171,19 @@ function Category() {
     };
 
     return (
-        <div className="page">
+        <div className="category-page">
 
-            <h1>Category Master</h1>
+            {/* Page Header */}
+            <div className="category-header">
+                <h1>Category Master</h1>
+            </div>
 
-            <form onSubmit={handleSubmit} className="form">
+
+            {/* Category Form */}
+            <form
+                onSubmit={handleSubmit}
+                className="category-form"
+            >
 
                 <input
                     type="text"
@@ -111,14 +194,20 @@ function Category() {
                     }
                 />
 
-                <button type="submit">
-                    {editId ? "Update Category" : "Add Category"}
+                <button
+                    type="submit"
+                    className="category-submit"
+                >
+                    {editId
+                        ? "Update Category"
+                        : "Add Category"}
                 </button>
 
                 {editId && (
                     <button
                         type="button"
                         onClick={handleCancel}
+                        className="category-cancel"
                     >
                         Cancel
                     </button>
@@ -126,62 +215,111 @@ function Category() {
 
             </form>
 
-            <div className="table-container">
-                <table>
 
-                <thead>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Category Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+            {/* Category Table */}
+            <div className="category-table-wrapper">
 
-                <tbody>
+                <table className="category-table">
 
-                    {categories.length === 0 ? (
+                    <thead>
                         <tr>
-                            <td colSpan="3" className="empty-row">
-                                No categories found
-                            </td>
+                            <th className="serial-column">
+                                S.NO
+                            </th>
+
+                            <th>
+                                CATEGORY NAME
+                            </th>
+
+                            <th className="actions-column">
+                                ACTIONS
+                            </th>
                         </tr>
-                    ) : (
-                        categories.map((category, index) => (
-                            <tr key={category._id}>
+                    </thead>
 
-                                <td data-label="S.No">{index + 1}</td>
+                    <tbody>
 
-                                <td data-label="Category">
-                                    {category.categoryName}
+                        {categories.length === 0 ? (
+
+                            <tr>
+                                <td
+                                    colSpan="3"
+                                    className="category-empty"
+                                >
+                                    No categories found
                                 </td>
-
-                                <td data-label="Actions">
-
-                                    <button
-                                        onClick={() =>
-                                            handleEdit(category)
-                                        }
-                                    >
-                                        Edit
-                                    </button>
-
-                                    <button
-                                        onClick={() =>
-                                            handleDelete(category._id)
-                                        }
-                                    >
-                                        Delete
-                                    </button>
-
-                                </td>
-
                             </tr>
-                        ))
-                    )}
 
-                </tbody>
+                        ) : (
 
-            </table>
+                            categories.map(
+                                (category, index) => (
+
+                                    <tr
+                                        key={category._id}
+                                    >
+
+                                        <td
+                                            data-label="S.No"
+                                            className="serial-column"
+                                        >
+                                            {index + 1}
+                                        </td>
+
+
+                                        <td
+                                            data-label="Category"
+                                            className="category-name-cell"
+                                        >
+                                            {category.categoryName}
+                                        </td>
+
+
+                                        <td
+                                            data-label="Actions"
+                                            className="category-actions"
+                                        >
+
+                                            {/* Edit */}
+                                            <button
+                                                type="button"
+                                                className="icon-button edit-button"
+                                                onClick={() =>
+                                                    handleEdit(category)
+                                                }
+                                                title="Edit category"
+                                                aria-label={`Edit ${category.categoryName}`}
+                                            >
+                                                <EditIcon />
+                                            </button>
+
+
+                                            {/* Delete */}
+                                            <button
+                                                type="button"
+                                                className="icon-button delete-button"
+                                                onClick={() =>
+                                                    handleDelete(
+                                                        category._id
+                                                    )
+                                                }
+                                                title="Delete category"
+                                                aria-label={`Delete ${category.categoryName}`}
+                                            >
+                                                <DeleteIcon />
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+                                )
+                            )
+                        )}
+
+                    </tbody>
+
+                </table>
+
             </div>
 
         </div>
