@@ -396,15 +396,18 @@
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    gap: 8px;
+    gap: 14px;
 }
 
 
 /* =====================================================
    ICON BUTTONS
+   ICON ONLY - NO BOX
 ===================================================== */
+
 .product-icon-button {
     width: 32px;
     height: 32px;
@@ -417,6 +420,7 @@
     padding: 0;
 
     border: none;
+
     border-radius: 0;
 
     background: transparent;
@@ -428,12 +432,24 @@
         opacity 0.15s ease;
 }
 
+
+/* =====================================================
+   ICON
+===================================================== */
+
 .product-action-icon {
     width: 20px;
     height: 20px;
 
     display: block;
+
+    fill: none;
 }
+
+
+/* =====================================================
+   EDIT ICON
+===================================================== */
 
 .product-edit-button {
     color: #2563eb;
@@ -446,8 +462,17 @@
 
     background: transparent;
 
-    transform: scale(1.12);
+    transform: scale(1.15);
 }
+
+.product-edit-button:active {
+    transform: scale(0.95);
+}
+
+
+/* =====================================================
+   DELETE ICON
+===================================================== */
 
 .product-delete-button {
     color: #ef4444;
@@ -460,17 +485,13 @@
 
     background: transparent;
 
-    transform: scale(1.12);
+    transform: scale(1.15);
 }
 
-.product-actions {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 14px;
+.product-delete-button:active {
+    transform: scale(0.95);
 }
+
 
 /* =====================================================
    EMPTY STATE
@@ -500,7 +521,8 @@
     .product-form-page {
         max-width: 850px;
 
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
     .product-header,
@@ -516,33 +538,14 @@
 
 @media (max-width: 600px) {
 
-    @media (max-width: 600px) {
-
-    .product-actions {
-        justify-content: flex-end !important;
-
-        gap: 16px;
-
-        padding-top: 14px !important;
-    }
-
-    .product-icon-button {
-        width: 36px;
-        height: 36px;
-    }
-
-    .product-action-icon {
-        width: 21px;
-        height: 21px;
-    }
-}
-
     .product-page {
         padding: 28px 16px 50px;
     }
 
 
-    /* Header */
+    /* -------------------------------------------------
+       HEADER
+    ------------------------------------------------- */
 
     .product-header {
         margin-bottom: 22px;
@@ -559,7 +562,9 @@
     }
 
 
-    /* Form */
+    /* -------------------------------------------------
+       FORM
+    ------------------------------------------------- */
 
     .product-form-page {
         width: 100%;
@@ -577,6 +582,10 @@
     }
 
 
+    /* -------------------------------------------------
+       FORM BUTTONS
+    ------------------------------------------------- */
+
     .product-form-actions {
         flex-direction: column;
 
@@ -591,7 +600,9 @@
     }
 
 
-    /* Table */
+    /* -------------------------------------------------
+       TABLE
+    ------------------------------------------------- */
 
     .product-table-wrapper {
         width: 100%;
@@ -603,7 +614,8 @@
 
 
     /*
-       Product rows become cards on mobile.
+       Convert product table into cards
+       on mobile.
     */
 
     .product-table,
@@ -658,7 +670,9 @@
     }
 
 
-    /* Labels */
+    /* -------------------------------------------------
+       MOBILE LABELS
+    ------------------------------------------------- */
 
     .product-table td::before {
         content: attr(data-label);
@@ -679,7 +693,9 @@
     }
 
 
-    /* Serial */
+    /* -------------------------------------------------
+       SERIAL NUMBER
+    ------------------------------------------------- */
 
     .product-table td.product-serial {
         text-align: right;
@@ -688,12 +704,14 @@
     }
 
 
-    /* Actions */
+    /* -------------------------------------------------
+       ACTIONS
+    ------------------------------------------------- */
 
     .product-actions {
         justify-content: flex-end !important;
 
-        gap: 10px;
+        gap: 16px;
 
         padding-top: 14px !important;
     }
@@ -702,9 +720,28 @@
         margin-right: auto;
     }
 
+
+    /* -------------------------------------------------
+       MOBILE ICONS
+    ------------------------------------------------- */
+
     .product-icon-button {
-        width: 44px;
-        height: 44px;
+        width: 36px;
+        height: 36px;
+
+        padding: 0;
+
+        background: transparent;
+    }
+
+    .product-action-icon {
+        width: 21px;
+        height: 21px;
+    }
+
+    .product-edit-button:hover,
+    .product-delete-button:hover {
+        background: transparent;
     }
 }
 
@@ -717,6 +754,7 @@
 
     .product-page {
         padding-left: 12px;
+
         padding-right: 12px;
     }
 
@@ -726,5 +764,9 @@
 
     .product-table tbody tr {
         padding: 14px;
+    }
+
+    .product-actions {
+        gap: 14px;
     }
 }
