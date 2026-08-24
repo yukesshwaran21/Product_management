@@ -405,73 +405,72 @@
 /* =====================================================
    ICON BUTTONS
 ===================================================== */
-
 .product-icon-button {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
 
     display: inline-flex;
 
     align-items: center;
     justify-content: center;
 
+    padding: 0;
+
     border: none;
+    border-radius: 0;
 
-    border-radius: 8px;
-
-    color: #ffffff;
+    background: transparent;
 
     cursor: pointer;
 
     transition:
         transform 0.15s ease,
-        box-shadow 0.15s ease,
-        background 0.15s ease;
+        opacity 0.15s ease;
 }
 
 .product-action-icon {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
 
     display: block;
 }
 
-
-/* Edit */
-
 .product-edit-button {
-    background: #2563eb;
+    color: #2563eb;
+
+    background: transparent;
 }
 
 .product-edit-button:hover {
-    background: #1d4ed8;
+    color: #1d4ed8;
 
-    box-shadow:
-        0 4px 10px rgba(37, 99, 235, 0.20);
+    background: transparent;
 
-    transform: translateY(-1px);
+    transform: scale(1.12);
 }
 
-
-/* Delete */
-
 .product-delete-button {
-    background: #ef4444;
+    color: #ef4444;
+
+    background: transparent;
 }
 
 .product-delete-button:hover {
-    background: #dc2626;
+    color: #dc2626;
 
-    box-shadow:
-        0 4px 10px rgba(239, 68, 68, 0.20);
+    background: transparent;
 
-    transform: translateY(-1px);
+    transform: scale(1.12);
 }
 
-.product-icon-button:active {
-    transform: translateY(1px);
-}
+.product-actions {
+    display: flex;
 
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+}
 
 /* =====================================================
    EMPTY STATE
@@ -516,6 +515,27 @@
 ===================================================== */
 
 @media (max-width: 600px) {
+
+    @media (max-width: 600px) {
+
+    .product-actions {
+        justify-content: flex-end !important;
+
+        gap: 16px;
+
+        padding-top: 14px !important;
+    }
+
+    .product-icon-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .product-action-icon {
+        width: 21px;
+        height: 21px;
+    }
+}
 
     .product-page {
         padding: 28px 16px 50px;
