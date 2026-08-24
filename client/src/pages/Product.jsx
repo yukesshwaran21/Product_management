@@ -416,10 +416,6 @@ function Product() {
                     Products Master
                 </h1>
 
-                <p>
-                    Manage your products, pricing and product details
-                </p>
-
             </div>
 
 
