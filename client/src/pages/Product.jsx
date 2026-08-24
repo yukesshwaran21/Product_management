@@ -14,6 +14,7 @@ function Product() {
     const [brand, setBrand] = useState("");
     const [mrp, setMrp] = useState("");
     const [price, setPrice] = useState("");
+    const [productFile, setProductFile] = useState(null);
 
     const [editId, setEditId] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -182,6 +183,14 @@ function Product() {
         setBrand("");
         setMrp("");
         setPrice("");
+        setProductFile(null);
+
+        // Reset the file input element if it exists
+        const fileInput = document.getElementById("product-file");
+        if (fileInput) {
+            fileInput.value = "";
+        }
+
         setEditId(null);
     };
 
@@ -330,6 +339,29 @@ function Product() {
                         }
                         min="0"
                     />
+                </div>
+
+
+                {/* Product File */}
+                <div className="form-group file-upload-group">
+                    <label htmlFor="product-file">
+                        Product File
+                    </label>
+
+                    <input
+                        id="product-file"
+                        type="file"
+                        accept="image/*,.pdf"
+                        onChange={(e) =>
+                            setProductFile(e.target.files[0] || null)
+                        }
+                    />
+
+                    {productFile && (
+                        <small className="file-name">
+                            Selected: {productFile.name}
+                        </small>
+                    )}
                 </div>
 
 
