@@ -2,12 +2,14 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    NavLink
+    NavLink,
+    Navigate
 } from "react-router-dom";
 
 import Category from "./pages/Category";
 import SubCategory from "./pages/SubCategory";
 import Product from "./pages/Product";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
     return (
@@ -26,6 +28,17 @@ function App() {
 
                 <div className="nav-links">
 
+                    {/* Dashboard */}
+                    <NavLink
+                        to="/dashboard"
+                        className={({ isActive }) =>
+                            isActive ? "active" : ""
+                        }
+                    >
+                        Dashboard
+                    </NavLink>
+
+                    {/* Categories */}
                     <NavLink
                         to="/categories"
                         className={({ isActive }) =>
@@ -35,6 +48,7 @@ function App() {
                         Categories
                     </NavLink>
 
+                    {/* Subcategories */}
                     <NavLink
                         to="/subcategories"
                         className={({ isActive }) =>
@@ -44,6 +58,7 @@ function App() {
                         Subcategories
                     </NavLink>
 
+                    {/* Products */}
                     <NavLink
                         to="/products"
                         className={({ isActive }) =>
@@ -58,21 +73,31 @@ function App() {
 
             <Routes>
 
+                {/* Redirect root to Dashboard */}
                 <Route
                     path="/"
-                    element={<Category />}
+                    element={<Navigate to="/dashboard" replace />}
                 />
 
+                {/* Dashboard */}
+                <Route
+                    path="/dashboard"
+                    element={<Dashboard />}
+                />
+
+                {/* Category */}
                 <Route
                     path="/categories"
                     element={<Category />}
                 />
 
+                {/* Subcategory */}
                 <Route
                     path="/subcategories"
                     element={<SubCategory />}
                 />
 
+                {/* Product */}
                 <Route
                     path="/products"
                     element={<Product />}
