@@ -545,26 +545,6 @@ function Dashboard() {
             </div>
 
 
-            {/* =========================
-                SYSTEM STATUS
-            ========================= */}
-
-            <div className="dashboard-status">
-
-                <div className="status-indicator"></div>
-
-                <div>
-                    <strong>
-                        System Connected
-                    </strong>
-
-                    <span>
-                        Dashboard is connected to the Product Management API
-                    </span>
-                </div>
-
-            </div>
-
         </div>
     );
 }
