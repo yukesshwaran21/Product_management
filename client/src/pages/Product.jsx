@@ -3,6 +3,7 @@ import api from "../services/api";
 import { useToast } from "../components/Toast";
 import "./Product.css";
 
+
 function EditIcon() {
     return (
         <svg
@@ -28,6 +29,7 @@ function EditIcon() {
         </svg>
     );
 }
+
 
 function DeleteIcon() {
     return (
@@ -85,6 +87,7 @@ function Product() {
     const [brand, setBrand] = useState("");
     const [mrp, setMrp] = useState("");
     const [price, setPrice] = useState("");
+
     const [productFile, setProductFile] = useState(null);
 
     const [editId, setEditId] = useState(null);
@@ -182,8 +185,61 @@ function Product() {
 
         setCategory(selectedCategory);
 
-        // Reset subcategory when category changes
         setSubCategory("");
+    };
+
+
+    // =====================================================
+    // FILE CHANGE
+    // =====================================================
+
+    const handleFileChange = (e) => {
+
+        const file = e.target.files[0];
+
+        if (!file) {
+
+            setProductFile(null);
+
+            return;
+        }
+
+
+        // Only images are allowed
+
+        if (!file.type.startsWith("image/")) {
+
+            showToast(
+                "Please select an image file",
+                "warning"
+            );
+
+            e.target.value = "";
+
+            setProductFile(null);
+
+            return;
+        }
+
+
+        // Maximum 5 MB
+
+        if (file.size > 5 * 1024 * 1024) {
+
+            showToast(
+                "Image size must be less than 5 MB",
+                "warning"
+            );
+
+            e.target.value = "";
+
+            setProductFile(null);
+
+            return;
+        }
+
+
+        setProductFile(file);
     };
 
 
@@ -195,6 +251,8 @@ function Product() {
 
         e.preventDefault();
 
+
+        // Required field validation
 
         if (
             !productName.trim() ||
@@ -215,6 +273,8 @@ function Product() {
         }
 
 
+        // Price validation
+
         if (Number(price) > Number(mrp)) {
 
             showToast(
@@ -228,33 +288,88 @@ function Product() {
 
         try {
 
-            const data = {
-                productName,
-                productCode,
-                category,
-                subCategory,
-                brand,
-                mrp: Number(mrp),
-                price: Number(price)
-            };
+            // =============================================
+            // CREATE FORMDATA
+            // =============================================
 
+            const formData = new FormData();
+
+            formData.append(
+                "productName",
+                productName.trim()
+            );
+
+            formData.append(
+                "productCode",
+                productCode.trim()
+            );
+
+            formData.append(
+                "category",
+                category
+            );
+
+            formData.append(
+                "subCategory",
+                subCategory
+            );
+
+            formData.append(
+                "brand",
+                brand.trim()
+            );
+
+            formData.append(
+                "mrp",
+                mrp
+            );
+
+            formData.append(
+                "price",
+                price
+            );
+
+
+            // =============================================
+            // ADD IMAGE
+            // =============================================
+
+            if (productFile) {
+
+                formData.append(
+                    "image",
+                    productFile
+                );
+            }
+
+
+            // =============================================
+            // UPDATE PRODUCT
+            // =============================================
 
             if (editId) {
 
                 await api.put(
                     `/products/${editId}`,
-                    data
+                    formData
                 );
 
                 showToast(
                     "Product updated successfully"
                 );
 
-            } else {
+            }
+
+
+            // =============================================
+            // CREATE PRODUCT
+            // =============================================
+
+            else {
 
                 await api.post(
                     "/products",
-                    data
+                    formData
                 );
 
                 showToast(
@@ -267,7 +382,13 @@ function Product() {
 
             fetchProducts();
 
+
         } catch (error) {
+
+            console.error(
+                "Product submit error:",
+                error
+            );
 
             showToast(
                 error.response?.data?.message ||
@@ -287,11 +408,11 @@ function Product() {
         setEditId(product._id);
 
         setProductName(
-            product.productName
+            product.productName || ""
         );
 
         setProductCode(
-            product.productCode
+            product.productCode || ""
         );
 
         setCategory(
@@ -303,18 +424,43 @@ function Product() {
         );
 
         setBrand(
-            product.brand
+            product.brand || ""
         );
 
         setMrp(
-            product.mrp
+            product.mrp ?? ""
         );
 
         setPrice(
-            product.price
+            product.price ?? ""
         );
 
+
+        /*
+         * File inputs cannot be automatically
+         * populated with an existing file.
+         *
+         * User can select a new image if needed.
+         */
+
         setProductFile(null);
+
+
+        const fileInput =
+            document.getElementById(
+                "product-file"
+            );
+
+        if (fileInput) {
+
+            fileInput.value = "";
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     };
 
 
@@ -329,6 +475,7 @@ function Product() {
         );
 
         if (!confirmDelete) {
+
             return;
         }
 
@@ -346,6 +493,8 @@ function Product() {
             fetchProducts();
 
         } catch (error) {
+
+            console.error(error);
 
             showToast(
                 error.response?.data?.message ||
@@ -369,6 +518,7 @@ function Product() {
         setBrand("");
         setMrp("");
         setPrice("");
+
         setProductFile(null);
 
 
@@ -378,6 +528,7 @@ function Product() {
             );
 
         if (fileInput) {
+
             fileInput.value = "";
         }
 
@@ -398,6 +549,62 @@ function Product() {
 
 
     // =====================================================
+    // GET IMAGE URL
+    // =====================================================
+
+    const getImageUrl = (image) => {
+
+        if (!image) {
+
+            return null;
+        }
+
+
+        // If backend returns complete URL
+
+        if (
+            image.startsWith("http://") ||
+            image.startsWith("https://")
+        ) {
+
+            return image;
+        }
+
+
+        /*
+         * api.defaults.baseURL:
+         *
+         * Local:
+         * http://localhost:5000/api
+         *
+         * Render:
+         * https://product-management-api-pvq2.onrender.com/api
+         *
+         * Remove /api to get the server URL.
+         */
+
+        const baseUrl =
+            api.defaults.baseURL?.replace(
+                /\/api\/?$/,
+                ""
+            );
+
+
+        /*
+         * Make sure image path starts with /
+         */
+
+        const imagePath =
+            image.startsWith("/")
+                ? image
+                : `/${image}`;
+
+
+        return `${baseUrl}${imagePath}`;
+    };
+
+
+    // =====================================================
     // UI
     // =====================================================
 
@@ -415,6 +622,10 @@ function Product() {
                 <h1>
                     Products Master
                 </h1>
+
+                <p>
+                    Create and manage your products
+                </p>
 
             </div>
 
@@ -626,24 +837,19 @@ function Product() {
                 </div>
 
 
-                {/* Product File */}
+                {/* Product Image */}
 
                 <div className="product-form-group product-file-group">
 
                     <label htmlFor="product-file">
-                        Product File
+                        Product Image
                     </label>
 
                     <input
                         id="product-file"
                         type="file"
-                        accept="image/*,.pdf"
-                        onChange={(e) =>
-                            setProductFile(
-                                e.target.files[0] ||
-                                null
-                            )
-                        }
+                        accept="image/jpeg,image/png,image/jpg,image/webp"
+                        onChange={handleFileChange}
                     />
 
                     {productFile && (
@@ -665,9 +871,11 @@ function Product() {
                         type="submit"
                         className="product-submit-button"
                     >
+
                         {editId
                             ? "Update Product"
                             : "Add Product"}
+
                     </button>
 
 
@@ -702,6 +910,10 @@ function Product() {
 
                             <th className="product-serial">
                                 S.NO
+                            </th>
+
+                            <th>
+                                IMAGE
                             </th>
 
                             <th>
@@ -748,7 +960,7 @@ function Product() {
                             <tr>
 
                                 <td
-                                    colSpan="9"
+                                    colSpan="10"
                                     className="product-empty"
                                 >
 
@@ -780,64 +992,112 @@ function Product() {
                                         </td>
 
 
+                                        {/* IMAGE */}
+
+                                        <td
+                                            data-label="Image"
+                                            className="product-image-cell"
+                                        >
+
+                                            {product.image ? (
+
+                                                <img
+                                                    src={getImageUrl(
+                                                        product.image
+                                                    )}
+                                                    alt={
+                                                        product.productName
+                                                    }
+                                                    className="product-table-image"
+                                                    onError={(e) => {
+                                                        e.currentTarget.style.display =
+                                                            "none";
+                                                    }}
+                                                />
+
+                                            ) : (
+
+                                                <div className="product-no-image">
+                                                    No Image
+                                                </div>
+
+                                            )}
+
+                                        </td>
+
+
                                         {/* PRODUCT */}
 
                                         <td data-label="Product">
+
                                             {
                                                 product.productName
                                             }
+
                                         </td>
 
 
                                         {/* CODE */}
 
                                         <td data-label="Code">
+
                                             {
                                                 product.productCode
                                             }
+
                                         </td>
 
 
                                         {/* CATEGORY */}
 
                                         <td data-label="Category">
+
                                             {
                                                 product.category
                                                     ?.categoryName
                                             }
+
                                         </td>
 
 
                                         {/* SUBCATEGORY */}
 
                                         <td data-label="Subcategory">
+
                                             {
                                                 product.subCategory
                                                     ?.subCategoryName
                                             }
+
                                         </td>
 
 
                                         {/* BRAND */}
 
                                         <td data-label="Brand">
+
                                             {
                                                 product.brand
                                             }
+
                                         </td>
 
 
                                         {/* MRP */}
 
                                         <td data-label="MRP">
+
                                             ₹{product.mrp}
+
                                         </td>
 
 
                                         {/* PRICE */}
 
                                         <td data-label="Price">
+
                                             ₹{product.price}
+
                                         </td>
 
 
@@ -899,5 +1159,6 @@ function Product() {
         </div>
     );
 }
+
 
 export default Product;

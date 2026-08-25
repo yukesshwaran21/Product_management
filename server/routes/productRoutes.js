@@ -10,7 +10,13 @@ const {
 
 const router = express.Router();
 
-router.post("/", createProduct);
+const upload = require("../middleware/upload");
+
+router.post(
+    "/",
+    upload.single("image"),
+    createProduct
+);
 
 router.get("/", getProducts);
 

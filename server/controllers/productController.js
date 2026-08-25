@@ -40,7 +40,8 @@ const createProduct = async (req, res) => {
         }
 
         // Check subcategory
-        const subCategoryExists = await SubCategory.findById(subCategory);
+        const subCategoryExists =
+            await SubCategory.findById(subCategory);
 
         if (!subCategoryExists) {
             return res.status(404).json({
@@ -49,9 +50,12 @@ const createProduct = async (req, res) => {
         }
 
         // Make sure subcategory belongs to selected category
-        if (subCategoryExists.category.toString() !== category) {
+        if (
+            subCategoryExists.category.toString() !== category
+        ) {
             return res.status(400).json({
-                message: "Subcategory does not belong to the selected category"
+                message:
+                    "Subcategory does not belong to the selected category"
             });
         }
 
@@ -73,6 +77,14 @@ const createProduct = async (req, res) => {
             });
         }
 
+        // Image path
+        let image = "";
+
+        if (req.file) {
+            image = `/uploads/products/${req.file.filename}`;
+        }
+
+        // Create product
         const product = await Product.create({
             productName,
             productCode,
@@ -80,7 +92,8 @@ const createProduct = async (req, res) => {
             subCategory,
             brand,
             mrp,
-            price
+            price,
+            image
         });
 
         res.status(201).json({
@@ -89,13 +102,14 @@ const createProduct = async (req, res) => {
         });
 
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
             message: "Failed to create product",
             error: error.message
         });
     }
 };
-
 
 // Get all products
 const getProducts = async (req, res) => {
