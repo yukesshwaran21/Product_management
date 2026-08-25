@@ -10,6 +10,7 @@ function Dashboard() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     useEffect(() => {
         fetchDashboardData();
@@ -17,7 +18,9 @@ function Dashboard() {
 
     const fetchDashboardData = async () => {
         try {
-            setLoading(true);
+            if (loading) setLoading(true);
+            else setIsRefreshing(true);
+            
             setError("");
 
             const [
@@ -43,6 +46,7 @@ function Dashboard() {
             );
         } finally {
             setLoading(false);
+            setIsRefreshing(false);
         }
     };
 
@@ -51,9 +55,7 @@ function Dashboard() {
     ========================= */
 
     const totalCategories = categories.length;
-
     const totalSubCategories = subCategories.length;
-
     const totalProducts = products.length;
 
     const totalBrands = new Set(
@@ -109,10 +111,10 @@ function Dashboard() {
 
     if (loading) {
         return (
-            <div className="dashboard-page">
+            <div className="dashboard-page dashboard-animated">
                 <div className="dashboard-loading">
                     <div className="loading-spinner"></div>
-                    <p>Loading dashboard...</p>
+                    <p>Loading dashboard metrics...</p>
                 </div>
             </div>
         );
@@ -124,17 +126,15 @@ function Dashboard() {
 
     if (error) {
         return (
-            <div className="dashboard-page">
-                <div className="dashboard-header">
+            <div className="dashboard-page dashboard-animated">
+                <div className="dashboard-header animate-fade-down">
                     <div>
                         <h1>Dashboard</h1>
-                        <p>
-                            Overview of your product management system
-                        </p>
+                        <p>Overview of your product management system</p>
                     </div>
                 </div>
 
-                <div className="dashboard-error">
+                <div className="dashboard-error animate-fade-up">
                     <div className="error-icon">!</div>
 
                     <div>
@@ -154,29 +154,25 @@ function Dashboard() {
     }
 
     return (
-        <div className="dashboard-page">
+        <div className="dashboard-page dashboard-animated">
 
             {/* =========================
                 HEADER
             ========================= */}
 
-            <div className="dashboard-header">
-
+            <div className="dashboard-header animate-fade-down">
                 <div>
                     <h1>Dashboard</h1>
-
-                    <p>
-                        Overview of your product management system
-                    </p>
+                    <p>Overview of your product management system</p>
                 </div>
 
                 <button
-                    className="refresh-button"
+                    className={`refresh-button ${isRefreshing ? "refreshing" : ""}`}
                     onClick={fetchDashboardData}
+                    disabled={isRefreshing}
                 >
-                    ↻ Refresh
+                    <span className="refresh-icon">↻</span> Refresh
                 </button>
-
             </div>
 
 
@@ -186,87 +182,48 @@ function Dashboard() {
 
             <div className="dashboard-stats">
 
-                <div className="stat-card">
-
+                <div className="stat-card animate-fade-up delay-1">
                     <div className="stat-icon category-icon">
                         C
                     </div>
-
                     <div className="stat-content">
                         <span>Total Categories</span>
-
-                        <strong>
-                            {totalCategories}
-                        </strong>
-
-                        <small>
-                            Product categories
-                        </small>
+                        <strong>{totalCategories}</strong>
+                        <small>Product categories</small>
                     </div>
-
                 </div>
 
-
-                <div className="stat-card">
-
+                <div className="stat-card animate-fade-up delay-2">
                     <div className="stat-icon subcategory-icon">
                         S
                     </div>
-
                     <div className="stat-content">
                         <span>Total Subcategories</span>
-
-                        <strong>
-                            {totalSubCategories}
-                        </strong>
-
-                        <small>
-                            Organized under categories
-                        </small>
+                        <strong>{totalSubCategories}</strong>
+                        <small>Organized under categories</small>
                     </div>
-
                 </div>
 
-
-                <div className="stat-card">
-
+                <div className="stat-card animate-fade-up delay-3">
                     <div className="stat-icon product-icon">
                         P
                     </div>
-
                     <div className="stat-content">
                         <span>Total Products</span>
-
-                        <strong>
-                            {totalProducts}
-                        </strong>
-
-                        <small>
-                            Products in catalog
-                        </small>
+                        <strong>{totalProducts}</strong>
+                        <small>Products in catalog</small>
                     </div>
-
                 </div>
 
-
-                <div className="stat-card">
-
+                <div className="stat-card animate-fade-up delay-4">
                     <div className="stat-icon brand-icon">
                         B
                     </div>
-
                     <div className="stat-content">
                         <span>Total Brands</span>
-
-                        <strong>
-                            {totalBrands}
-                        </strong>
-
-                        <small>
-                            Unique product brands
-                        </small>
+                        <strong>{totalBrands}</strong>
+                        <small>Unique product brands</small>
                     </div>
-
                 </div>
 
             </div>
@@ -279,175 +236,97 @@ function Dashboard() {
             <div className="dashboard-grid">
 
                 {/* CATEGORY OVERVIEW */}
-
-                <div className="dashboard-card category-overview">
-
+                <div className="dashboard-card category-overview animate-fade-up delay-5">
                     <div className="card-header">
-
                         <div>
                             <h2>Category Overview</h2>
-
-                            <p>
-                                Products by category
-                            </p>
+                            <p>Products by category</p>
                         </div>
-
-                        <Link to="/categories">
-                            View All
+                        <Link to="/categories" className="card-link-action">
+                            View All →
                         </Link>
-
                     </div>
 
-
                     <div className="category-list">
-
                         {sortedCategoryStats.length === 0 ? (
-
                             <div className="dashboard-empty">
                                 No category data available
                             </div>
-
                         ) : (
-
-                            sortedCategoryStats.map(
-                                (category) => (
-
-                                    <div
-                                        className="category-stat"
-                                        key={category.id}
-                                    >
-
-                                        <div className="category-stat-info">
-
-                                            <span>
-                                                {category.name}
-                                            </span>
-
-                                            <strong>
-                                                {category.count}
-                                            </strong>
-
-                                        </div>
-
-                                        <div className="progress-bar">
-
-                                            <div
-                                                className="progress-fill"
-                                                style={{
-                                                    width: `${
-                                                        (category.count /
-                                                            maxCategoryCount) *
-                                                        100
-                                                    }%`
-                                                }}
-                                            ></div>
-
-                                        </div>
-
+                            sortedCategoryStats.map((category) => (
+                                <div
+                                    className="category-stat"
+                                    key={category.id}
+                                >
+                                    <div className="category-stat-info">
+                                        <span>{category.name}</span>
+                                        <strong>{category.count}</strong>
                                     </div>
-
-                                )
-                            )
-
+                                    <div className="progress-bar">
+                                        <div
+                                            className="progress-fill"
+                                            style={{
+                                                width: `${
+                                                    (category.count /
+                                                        maxCategoryCount) *
+                                                    100
+                                                }%`
+                                            }}
+                                        ></div>
+                                    </div>
+                                </div>
+                            ))
                         )}
-
                     </div>
-
                 </div>
 
 
                 {/* QUICK ACTIONS */}
-
-                <div className="dashboard-card quick-actions">
-
+                <div className="dashboard-card quick-actions animate-fade-up delay-6">
                     <div className="card-header">
-
                         <div>
                             <h2>Quick Actions</h2>
-
-                            <p>
-                                Manage your catalog
-                            </p>
+                            <p>Manage your catalog</p>
                         </div>
-
                     </div>
 
-
                     <div className="quick-action-list">
-
                         <Link
                             to="/categories"
                             className="quick-action"
                         >
-                            <span className="quick-action-icon">
-                                +
-                            </span>
-
+                            <span className="quick-action-icon">+</span>
                             <span>
-                                <strong>
-                                    Add Category
-                                </strong>
-
-                                <small>
-                                    Create a new category
-                                </small>
+                                <strong>Add Category</strong>
+                                <small>Create a new category</small>
                             </span>
-
-                            <span className="arrow">
-                                →
-                            </span>
+                            <span className="arrow">→</span>
                         </Link>
-
 
                         <Link
                             to="/subcategories"
                             className="quick-action"
                         >
-                            <span className="quick-action-icon">
-                                +
-                            </span>
-
+                            <span className="quick-action-icon">+</span>
                             <span>
-                                <strong>
-                                    Add Subcategory
-                                </strong>
-
-                                <small>
-                                    Add under a category
-                                </small>
+                                <strong>Add Subcategory</strong>
+                                <small>Add under a category</small>
                             </span>
-
-                            <span className="arrow">
-                                →
-                            </span>
+                            <span className="arrow">→</span>
                         </Link>
-
 
                         <Link
                             to="/products"
                             className="quick-action"
                         >
-                            <span className="quick-action-icon">
-                                +
-                            </span>
-
+                            <span className="quick-action-icon">+</span>
                             <span>
-                                <strong>
-                                    Add Product
-                                </strong>
-
-                                <small>
-                                    Add a new product
-                                </small>
+                                <strong>Add Product</strong>
+                                <small>Add a new product</small>
                             </span>
-
-                            <span className="arrow">
-                                →
-                            </span>
+                            <span className="arrow">→</span>
                         </Link>
-
                     </div>
-
                 </div>
 
             </div>
@@ -457,37 +336,24 @@ function Dashboard() {
                 RECENT PRODUCTS
             ========================= */}
 
-            <div className="dashboard-card recent-products">
-
+            <div className="dashboard-card recent-products animate-fade-up delay-7">
                 <div className="card-header">
-
                     <div>
                         <h2>Recent Products</h2>
-
-                        <p>
-                            Recently added products
-                        </p>
+                        <p>Recently added products</p>
                     </div>
-
-                    <Link to="/products">
-                        View All
+                    <Link to="/products" className="card-link-action">
+                        View All →
                     </Link>
-
                 </div>
 
-
                 {recentProducts.length === 0 ? (
-
                     <div className="dashboard-empty">
                         No products available
                     </div>
-
                 ) : (
-
                     <div className="recent-table-container">
-
                         <table className="recent-table">
-
                             <thead>
                                 <tr>
                                     <th>Product</th>
@@ -497,53 +363,36 @@ function Dashboard() {
                                     <th>Price</th>
                                 </tr>
                             </thead>
-
                             <tbody>
-
-                                {recentProducts.map(
-                                    (product) => (
-
-                                        <tr key={product._id}>
-
-                                            <td>
-                                                <strong>
-                                                    {product.productName}
-                                                </strong>
-                                            </td>
-
-                                            <td>
+                                {recentProducts.map((product) => (
+                                    <tr key={product._id} className="table-row-item">
+                                        <td>
+                                            <strong>
+                                                {product.productName}
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <span className="product-code-pill">
                                                 {product.productCode}
-                                            </td>
-
-                                            <td>
-                                                {product.category
-                                                    ?.categoryName ||
-                                                    "-"}
-                                            </td>
-
-                                            <td>
-                                                {product.brand || "-"}
-                                            </td>
-
-                                            <td>
-                                                ₹{product.price}
-                                            </td>
-
-                                        </tr>
-
-                                    )
-                                )}
-
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {product.category
+                                                ?.categoryName || "-"}
+                                        </td>
+                                        <td>
+                                            {product.brand || "-"}
+                                        </td>
+                                        <td className="product-price">
+                                            ₹{product.price}
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
-
                         </table>
-
                     </div>
-
                 )}
-
             </div>
-
 
         </div>
     );
